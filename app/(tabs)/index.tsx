@@ -8,7 +8,7 @@ export default function Index() {
       <Text
         className="text-2xl text-primary font-bold"
       >
-        Welcome Chetna
+        Welcome Kumar...
       </Text>
     </View>
   );
