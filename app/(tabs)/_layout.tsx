@@ -108,6 +108,7 @@ const TabIcon = ({ focused, icon, title }: any) => {
       </ImageBackground>
     )
   }
+  
   return (
     <View
       className='size-full justify-center items-center mt-4 rounded-full'
