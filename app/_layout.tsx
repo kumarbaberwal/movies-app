@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import '@/app/global.css'
+import { StatusBar } from 'expo-status-bar'
 
 export default function RootLayout() {
   return <Stack
@@ -13,5 +14,6 @@ export default function RootLayout() {
       name="movies/[id]"
       options={{ headerShown: false }}
     />
+    <StatusBar style={'dark'} />
   </Stack>;
 }
