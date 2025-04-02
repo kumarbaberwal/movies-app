@@ -16,7 +16,7 @@ export default function Index() {
     error: moviesError,
     refetch,
     reset,
-  } = useFetch(() => fetchMovies({ query: 'iron man' }), true);
+  } = useFetch(() => fetchMovies({ query: '' }), true);
 
   return (
     <View
