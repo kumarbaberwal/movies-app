@@ -20,10 +20,11 @@ export default function Search() {
   } = useFetch(() => fetchMovies({ query: searchQuery }), false);
 
   useEffect(() => {
-    updateSearchCount(searchQuery, movies[0]);
     const timeoutId = setTimeout(async () => {
       if (searchQuery.trim()) {
         await loadMovies();
+        if (movies?.length > 0 && movies?.[0])
+          await updateSearchCount(searchQuery.trim(), movies[0]);
       } else {
         reset();
       }
