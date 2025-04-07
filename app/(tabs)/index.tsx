@@ -1,14 +1,22 @@
 import MovieCard from "@/components/MovieCard";
 import SearchBar from "@/components/SearchBar";
+import TrendingCard from "@/components/TrendingCard";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
+import { getTrendingMovies } from "@/services/appwrite";
 import { useFetch } from "@/services/useFetch";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
 
 export default function Index() {
   const router = useRouter();
+
+  const {
+    data: trendingMovies,
+    loading: trendingMoviesLoading,
+    error: trendingMoviesError,
+  } = useFetch(getTrendingMovies);
 
   const {
     data: movies,
@@ -40,16 +48,16 @@ export default function Index() {
           className="w-12 h-10 mt-20 mb-5 mx-auto"
         />
 
-        {moviesLoading ? (
+        {moviesLoading || trendingMoviesLoading ? (
           <ActivityIndicator
             size="large"
             color="#0000ff"
             className="mt-10 self-center"
           />
-        ) : moviesError ? (
+        ) : moviesError || trendingMoviesError ? (
           <Text
           >
-            Error: {moviesError?.message}
+            Error: {moviesError?.message || trendingMoviesError?.message}
           </Text>
         ) : (
           <View
@@ -61,6 +69,33 @@ export default function Index() {
               }}
               placeholder="Search for a movie"
             />
+
+            {trendingMovies && trendingMovies.length > 0 && (
+              <View
+                className="mt-10"
+              >
+                <Text
+                  className="text-lg text-white font-bold mb-3"
+                >
+                  Trending Movies
+                </Text>
+                <FlatList
+                  data={trendingMovies}
+                  keyExtractor={(item) => item.movie_id}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  ItemSeparatorComponent={
+                    () => <View className="w-4" />
+                  }
+                  className="mb-4 mt-3"
+                  renderItem={({ item, index }) => (
+                    <TrendingCard movie={item} index={index} />
+                  )}
+                />
+              </View>
+            )}
+
+
             <>
               <Text
                 className="text-lg text-white font-bold mt-5 mb-3"
